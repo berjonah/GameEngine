@@ -11,7 +11,7 @@ namespace GameEngine
         [STAThread]
         public static void Main()
         {
-            using (DisplayWindow window = new DisplayWindow())
+            using (DisplayWindow window = new DisplayWindow(512,512))
             {
                 window.Run(30,30);
             }
