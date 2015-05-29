@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Drawing;
 using OpenTK;
+using OpenTK.Graphics;
 
 namespace GameEngine
 {
     class Program
     {
+
         [STAThread]
         public static void Main()
         {
-            Console.WriteLine("Hello World");
-            GameWindow window = new GameWindow(640, 480);
-            window.Run();
+            using (DisplayWindow window = new DisplayWindow())
+            {
+                window.Run(30,30);
+            }
         }
     }
 }
