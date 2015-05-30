@@ -13,7 +13,7 @@ namespace GameEngine
         {
             using (DisplayWindow window = new DisplayWindow(512,512))
             {
-                window.Run(30,30);
+                window.Run(120,120);
             }
         }
     }

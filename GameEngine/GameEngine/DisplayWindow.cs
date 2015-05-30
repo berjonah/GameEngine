@@ -134,7 +134,10 @@ namespace GameEngine
 
             mViewData[0] = Matrix4.CreateRotationY(0.55f * time)
                 * Matrix4.CreateRotationX(0.15f * time)
-                * Matrix4.CreateTranslation(0.0f, 0.0f, -0.1f * time)
+                * Matrix4.CreateTranslation(
+                    5.0f * (float)Math.Cos(7 * time) * (float)Math.Sin(9 * time),
+                    5.0f * (float)Math.Sin(11 * time) * (float)Math.Cos(13*time),
+                    +1.0f * time + -40.0f)
                 * Matrix4.CreatePerspectiveFieldOfView(1.3f, ClientSize.Width / (float)ClientSize.Height, 1.0f, 40.0f);
 
             GL.UniformMatrix4(uniform_mview, false, ref mViewData[0]);
