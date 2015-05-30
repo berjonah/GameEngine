@@ -27,19 +27,30 @@ namespace GameEngine
         int ibo_elements;
         int vbo_mview;
 
-        //Vector3[] vertData;
-        //Vector3[] colData;
         Matrix4[] mViewData;
 
         int[] indiceData;
         PointData pointData;
 
-        float time = 0.0f;
+        float xMouseRotation;
+        float yMouseRotation;
+
+        int startX;
+        int startY;
+
+        int prevX;
+        int prevY;
+
+        bool drag;
 
         public DisplayWindow(int width, int height,string filePath)
             : base(width,height, new GraphicsMode(32,24,0,4))
         {
             pointData = new PointData(filePath);
+            xMouseRotation = 0.0f;
+            yMouseRotation = 0.0f;
+            prevX = 0;
+            prevY = 0;
         }
 
         protected override void OnLoad(EventArgs e)
@@ -61,7 +72,7 @@ namespace GameEngine
 
             Title = "Hello OpenTK!";
             GL.ClearColor(Color.CornflowerBlue);
-            GL.PointSize(10f);
+            GL.PointSize(20f);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -92,8 +103,6 @@ namespace GameEngine
         {
             base.OnUpdateFrame(e);
 
-            time += (float)e.Time;
-
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo_position);
             GL.BufferData<Vector3>(BufferTarget.ArrayBuffer, (IntPtr)(pointData.VertData.Length * Vector3.SizeInBytes), pointData.VertData, BufferUsageHint.StaticDraw);
             GL.VertexAttribPointer(attribute_vpos, 3, VertexAttribPointerType.Float, false, 0, 0);
@@ -103,10 +112,19 @@ namespace GameEngine
             GL.VertexAttribPointer(attribute_vcol, 3, VertexAttribPointerType.Float, true, 0, 0);
 
             #region Transformation
+            
+            if(drag)
+            {
+                xMouseRotation += Mouse.X - prevX;
+                yMouseRotation += Mouse.Y - prevY;
 
-            mViewData[0] = Matrix4.CreateRotationY(0.5f * time)
-                * Matrix4.CreateRotationX(0.0f * time)
-                * Matrix4.CreateTranslation(0.0f, -10.0f, -20.0f)
+                prevX = Mouse.X;
+                prevY = Mouse.Y;
+            }
+
+            mViewData[0] = Matrix4.CreateRotationY(0.005f * xMouseRotation)
+                * Matrix4.CreateRotationX(0.005f * yMouseRotation)
+                * Matrix4.CreateTranslation(0.0f, -5.0f, -20.0f)
                 * Matrix4.CreatePerspectiveFieldOfView(1.3f, ClientSize.Width / (float)ClientSize.Height, 1.0f, 40.0f);
 
             #endregion Transformation
@@ -155,5 +173,18 @@ namespace GameEngine
             Console.WriteLine(GL.GetShaderInfoLog(address));
         }
 
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseDown(e);
+            drag = true;
+            prevX = e.X;
+            prevY = e.Y;
+        }
+
+        protected override void OnMouseUp(MouseButtonEventArgs e)
+        {
+            base.OnMouseUp(e);
+            drag = false;
+        }
     }
 }
