@@ -7,3 +7,11 @@ C:\Users\Andrew Fillmore\Documents\GitHub\GameEngine\GameEngine\GameEngine\bin\D
 C:\Users\Andrew Fillmore\Documents\GitHub\GameEngine\GameEngine\GameEngine\obj\Debug\GameEngine.csprojResolveAssemblyReference.cache
 C:\Users\Andrew Fillmore\Documents\GitHub\GameEngine\GameEngine\GameEngine\obj\Debug\GameEngine.exe
 C:\Users\Andrew Fillmore\Documents\GitHub\GameEngine\GameEngine\GameEngine\obj\Debug\GameEngine.pdb
+C:\Users\Andrew\Documents\GitHub\GameEngine\GameEngine\GameEngine\bin\Debug\GameEngine.exe.config
+C:\Users\Andrew\Documents\GitHub\GameEngine\GameEngine\GameEngine\obj\Debug\GameEngine.exe
+C:\Users\Andrew\Documents\GitHub\GameEngine\GameEngine\GameEngine\obj\Debug\GameEngine.pdb
+C:\Users\Andrew\Documents\GitHub\GameEngine\GameEngine\GameEngine\bin\Debug\GameEngine.exe
+C:\Users\Andrew\Documents\GitHub\GameEngine\GameEngine\GameEngine\bin\Debug\GameEngine.pdb
+C:\Users\Andrew\Documents\GitHub\GameEngine\GameEngine\GameEngine\bin\Debug\OpenTK.pdb
+C:\Users\Andrew\Documents\GitHub\GameEngine\GameEngine\GameEngine\bin\Debug\OpenTK.xml
+C:\Users\Andrew\Documents\GitHub\GameEngine\GameEngine\GameEngine\obj\Debug\GameEngine.csprojResolveAssemblyReference.cache

@@ -32,13 +32,14 @@ namespace GameEngine
         Matrix4[] mViewData;
 
         int[] indiceData;
+        int[][] pointData;
 
         float time = 0.0f;
 
-        public DisplayWindow(int width, int height)
+        public DisplayWindow(int width, int height,string filePath)
             : base(width,height, new GraphicsMode(32,24,0,4))
         {
- 
+                     
         }
 
         protected override void OnLoad(EventArgs e)
@@ -47,7 +48,9 @@ namespace GameEngine
 
             initProgram();
 
-            vertData = new Vector3[] { new Vector3(-0.8f, -0.8f,  -0.8f),
+            vertData = new Vector3[]
+            {
+                new Vector3(-0.8f, -0.8f,  -0.8f),
                 new Vector3(0.8f, -0.8f,  -0.8f),
                 new Vector3(0.8f, 0.8f,  -0.8f),
                 new Vector3(-0.8f, 0.8f,  -0.8f),
@@ -57,7 +60,8 @@ namespace GameEngine
                 new Vector3(-0.8f, 0.8f,  0.8f),
             };
 
-            indiceData = new int[]{
+            indiceData = new int[]
+            {
                 //front
                 0, 7, 3,
                 0, 4, 7,
@@ -106,7 +110,7 @@ namespace GameEngine
             GL.EnableVertexAttribArray(attribute_vcol);
 
 
-            GL.DrawElements(BeginMode.Triangles, indiceData.Length, DrawElementsType.UnsignedInt, 0);
+            GL.DrawElements(PrimitiveType.Points, indiceData.Length, DrawElementsType.UnsignedInt, 0);
  
  
             GL.DisableVertexAttribArray(attribute_vpos);
@@ -132,13 +136,14 @@ namespace GameEngine
             GL.BufferData<Vector3>(BufferTarget.ArrayBuffer, (IntPtr)(colData.Length * Vector3.SizeInBytes), colData, BufferUsageHint.StaticDraw);
             GL.VertexAttribPointer(attribute_vcol, 3, VertexAttribPointerType.Float, true, 0, 0);
 
+            #region Transformation
+
             mViewData[0] = Matrix4.CreateRotationY(0.55f * time)
                 * Matrix4.CreateRotationX(0.15f * time)
-                * Matrix4.CreateTranslation(
-                    5.0f * (float)Math.Cos(7 * time) * (float)Math.Sin(9 * time),
-                    5.0f * (float)Math.Sin(11 * time) * (float)Math.Cos(13*time),
-                    +1.0f * time + -40.0f)
+                * Matrix4.CreateTranslation(0.0f, 0.0f, -4.0f)
                 * Matrix4.CreatePerspectiveFieldOfView(1.3f, ClientSize.Width / (float)ClientSize.Height, 1.0f, 40.0f);
+
+            #endregion Transformation
 
             GL.UniformMatrix4(uniform_mview, false, ref mViewData[0]);
 

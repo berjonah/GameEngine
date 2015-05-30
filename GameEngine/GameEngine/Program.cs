@@ -9,9 +9,10 @@ namespace GameEngine
     {
 
         [STAThread]
-        public static void Main()
+        public static void Main(string[] args)
         {
-            using (DisplayWindow window = new DisplayWindow(512,512))
+
+            using (DisplayWindow window = new DisplayWindow(1000,700,args[0]))
             {
                 window.Run(120,120);
             }
