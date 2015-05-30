@@ -27,19 +27,19 @@ namespace GameEngine
         int ibo_elements;
         int vbo_mview;
 
-        Vector3[] vertData;
-        Vector3[] colData;
+        //Vector3[] vertData;
+        //Vector3[] colData;
         Matrix4[] mViewData;
 
         int[] indiceData;
-        int[][] pointData;
+        PointData pointData;
 
         float time = 0.0f;
 
         public DisplayWindow(int width, int height,string filePath)
             : base(width,height, new GraphicsMode(32,24,0,4))
         {
-                     
+            pointData = new PointData(filePath);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -48,54 +48,20 @@ namespace GameEngine
 
             initProgram();
 
-            vertData = new Vector3[]
+            indiceData = new int[pointData.Size];
+            for (int i = 0; i < indiceData.Length;i++ )
             {
-                new Vector3(-0.8f, -0.8f,  -0.8f),
-                new Vector3(0.8f, -0.8f,  -0.8f),
-                new Vector3(0.8f, 0.8f,  -0.8f),
-                new Vector3(-0.8f, 0.8f,  -0.8f),
-                new Vector3(-0.8f, -0.8f,  0.8f),
-                new Vector3(0.8f, -0.8f,  0.8f),
-                new Vector3(0.8f, 0.8f,  0.8f),
-                new Vector3(-0.8f, 0.8f,  0.8f),
-            };
+                indiceData[i] = i;
+            }
 
-            indiceData = new int[]
+            mViewData = new Matrix4[]
             {
-                //front
-                0, 7, 3,
-                0, 4, 7,
-                //back
-                1, 2, 6,
-                6, 5, 1,
-                //left
-                0, 2, 1,
-                0, 3, 2,
-                //right
-                4, 5, 6,
-                6, 7, 4,
-                //top
-                2, 3, 6,
-                6, 3, 7,
-                //bottom
-                0, 1, 5,
-                0, 5, 4
-            };
-
-            colData = new Vector3[] { new Vector3(1f, 0f, 0f),
-                new Vector3( 0f, 0f, 1f), 
-                new Vector3( 0f,  1f, 0f),new Vector3(1f, 0f, 0f),
-                new Vector3( 0f, 0f, 1f), 
-                new Vector3( 0f,  1f, 0f),new Vector3(1f, 0f, 0f),
-                new Vector3( 0f, 0f, 1f)};
-
-            mViewData = new Matrix4[]{
                 Matrix4.Identity
             };
 
             Title = "Hello OpenTK!";
             GL.ClearColor(Color.CornflowerBlue);
-            GL.PointSize(5f);
+            GL.PointSize(10f);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -110,7 +76,7 @@ namespace GameEngine
             GL.EnableVertexAttribArray(attribute_vcol);
 
 
-            GL.DrawElements(PrimitiveType.Points, indiceData.Length, DrawElementsType.UnsignedInt, 0);
+            GL.DrawElements(PrimitiveType.Points, pointData.Size, DrawElementsType.UnsignedInt, 0);
  
  
             GL.DisableVertexAttribArray(attribute_vpos);
@@ -129,18 +95,18 @@ namespace GameEngine
             time += (float)e.Time;
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo_position);
-            GL.BufferData<Vector3>(BufferTarget.ArrayBuffer, (IntPtr)(vertData.Length * Vector3.SizeInBytes), vertData, BufferUsageHint.StaticDraw);
+            GL.BufferData<Vector3>(BufferTarget.ArrayBuffer, (IntPtr)(pointData.VertData.Length * Vector3.SizeInBytes), pointData.VertData, BufferUsageHint.StaticDraw);
             GL.VertexAttribPointer(attribute_vpos, 3, VertexAttribPointerType.Float, false, 0, 0);
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo_color);
-            GL.BufferData<Vector3>(BufferTarget.ArrayBuffer, (IntPtr)(colData.Length * Vector3.SizeInBytes), colData, BufferUsageHint.StaticDraw);
+            GL.BufferData<Vector3>(BufferTarget.ArrayBuffer, (IntPtr)(pointData.ColorData.Length * Vector3.SizeInBytes), pointData.ColorData, BufferUsageHint.StaticDraw);
             GL.VertexAttribPointer(attribute_vcol, 3, VertexAttribPointerType.Float, true, 0, 0);
 
             #region Transformation
 
-            mViewData[0] = Matrix4.CreateRotationY(0.55f * time)
-                * Matrix4.CreateRotationX(0.15f * time)
-                * Matrix4.CreateTranslation(0.0f, 0.0f, -4.0f)
+            mViewData[0] = Matrix4.CreateRotationY(0.5f * time)
+                * Matrix4.CreateRotationX(0.0f * time)
+                * Matrix4.CreateTranslation(0.0f, -10.0f, -20.0f)
                 * Matrix4.CreatePerspectiveFieldOfView(1.3f, ClientSize.Width / (float)ClientSize.Height, 1.0f, 40.0f);
 
             #endregion Transformation
